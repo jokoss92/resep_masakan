@@ -12,30 +12,21 @@ class MyApp extends StatelessWidget {
         appBar: new AppBar(
           title: const Text('Bahan Makanan'),
         ),
-        body: ListView(
-          children: <Widget>[
-            ListTile(
-              title: Text('Chicken'),
-            ),
-              ListTile(
-              title: Text('Salmon'),
-            ),
-              ListTile(
-              title: Text('Beef'),
-            ),
-              ListTile(
-              title: Text('Pork'),
-            ),
-              ListTile(
-              title: Text('Avocado'),
-            ),
-              ListTile(
-              title: Text('Apple Cider Vinegar'),
-            ),
-              ListTile(
-              title: Text('Asparagus'),
-            ),
-          ],
+        body: ListView.builder(
+         itemCount: data.length,
+         itemBuilder: (context, index){
+           return ListTile(
+             title: Text(data[index]),
+             //Ketika pengguna melakukan tap pada ListTile, pindah ke DetailScreen.
+             //Selain membuat DetailScreen, data juga dikirimkan  
+             onTap: (){
+              Navigator.push(context,
+               MaterialPageRoute(
+                 builder: (context) => DetailScreen(item: data[index]),
+               ));
+             },
+           );
+         },
         ),
       ),
     );
@@ -43,6 +34,8 @@ class MyApp extends StatelessWidget {
 }
 
 class DetailScreen extends StatelessWidget {
+  DetailScreen({Key key, this.item}) : super(key: key);
+  final String item;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,6 +44,9 @@ class DetailScreen extends StatelessWidget {
         leading: IconButton(icon: Icon(Icons.arrow_back),
         onPressed: ()=> Navigator.pop(context, false),
         ),
+      ),
+      body: Center(
+        child: Text(item),
       ),
     );
   }
